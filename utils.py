@@ -4,29 +4,33 @@ from streamlit.components.v1 import html
 
 from PATHS import NAVBAR_PATHS, SETTINGS
 
+
 def inject_custom_css():
     with open('assets/styles.css') as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 
 def get_current_route():
     try:
         return st.experimental_get_query_params()['nav'][0]
     except:
         return None
- 
+
+
 def navbar_component():
     with open("assets/images/settings.png", "rb") as image_file:
-            image_as_base64 = base64.b64encode(image_file.read())
-    
+        image_as_base64 = base64.b64encode(image_file.read())
+
     navbar_items = ''
-    for key,value in NAVBAR_PATHS.items():
+    for key, value in NAVBAR_PATHS.items():
         navbar_items += (f'<a class="navitem" href="/?nav={value}">{key}</a>')
-    
+
     settings_items = ''
     for key, value in SETTINGS.items():
-        settings_items += (f'<a href="/?nav={value}" class="settingsNav">{key}</a>')
-        
-    error = rf'''
+        settings_items += (
+            f'<a href="/?nav={value}" class="settingsNav">{key}</a>')
+
+    component = rf'''
             <nav class="container navbar" id="navbar">
                 <ul class="navlist">
                 {navbar_items}
@@ -39,7 +43,7 @@ def navbar_component():
                 </div>
             </nav>
             '''
-    st.markdown(error,unsafe_allow_html=True)
+    st.markdown(component, unsafe_allow_html=True)
     js = '''
     <script>
         // navbar elements
